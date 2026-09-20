@@ -44,6 +44,7 @@ let playerSprite = sprites.create(img`
     `, SpriteKind.Player)
 controller.moveSprite(playerSprite, 0, 100)
 playerSprite.setPosition(150, 65)
+playerSprite.setStayInScreen(true)
 info.player1.setLife(1)
 // npc sprite code
 let npcSprite = sprites.create(img`
@@ -65,7 +66,7 @@ let npcSprite = sprites.create(img`
     . . . . . . f f f f f f f f . . 
     `, SpriteKind.Player)
 info.player2.setLife(5)
-game.onUpdateInterval(1000, function () {
+game.onUpdateInterval(300, function () {
     npcSprite.setPosition(10, randint(0, screen.height))
 })
 //ball is out sprite code
@@ -379,11 +380,11 @@ forever(function () {
     sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite: Sprite, otherSprite: Sprite) {
         if (ballSprite.overlapsWith(player1death)) {
             info.player1.changeLifeBy(-1)
-            pause(1000)
         }
         if (ballSprite.overlapsWith(player2death)) {
+            ballSprite.vx = ballSprite.vx * -1
+            pause(200)
             info.player2.changeLifeBy(-1)
-            pause(1000)
         }
     })
     sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite: Sprite, otherSprite: Sprite) {
